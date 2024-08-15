@@ -25,6 +25,12 @@ app.post('/select-qr-code', (req, res) => {
     }
 });
 
+// New route to reset selected QR codes
+app.post('/reset-qr-codes', (req, res) => {
+    selectedQrCodes.clear();
+    res.json({ message: 'All QR codes have been reset.' });
+});
+
 app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
 });
