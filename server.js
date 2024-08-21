@@ -32,7 +32,19 @@ app.post('/select-qr-code', (req, res) => {
     }
 });
 
-// New route to reset selected QR codes
+// New route to deselect a QR code (making it available again)
+app.post('/deselect-qr-code', (req, res) => {
+    const { number } = req.body;
+    // Check if the number is within the valid range and has been selected
+    if (number && number >= startNumber && number <= endNumber && selectedQrCodes.has(number)) {
+        selectedQrCodes.delete(number);
+        res.json({ message: 'QR code deselected successfully.' });
+    } else {
+        res.status(400).json({ message: 'QR code not found in selected list or invalid.' });
+    }
+});
+
+// Route to reset all selected QR codes
 app.post('/reset-qr-codes', (req, res) => {
     selectedQrCodes.clear();
     res.json({ message: 'All QR codes have been reset.' });
